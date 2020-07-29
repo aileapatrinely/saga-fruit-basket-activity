@@ -7,7 +7,7 @@ class FruitList extends Component {
   componentDidMount() {
     // this.getFruit();
     this.props.dispatch({
-      type: 'SET_BASKET',
+      type: 'GET_BASKET',
     });
   }
 

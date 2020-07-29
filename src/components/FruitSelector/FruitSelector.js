@@ -6,7 +6,7 @@ class FruitSelector extends Component {
   componentDidMount() {
     // this.getFruit();
     this.props.dispatch({
-      type: 'SET_BASKET',
+      type: 'GET_BASKET',
     });
   }
   // Currying that returns a function
