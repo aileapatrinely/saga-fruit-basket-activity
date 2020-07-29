@@ -15,6 +15,7 @@ import Axios from 'axios';
 // Create the rootSaga generator function
 function* rootSaga() {
   yield takeEvery('GET_BASKET', basketSaga);
+  yield takeEvery('POST_FRUIT', postSaga);
 }
 
 // Create sagaMiddleware
@@ -38,6 +39,17 @@ function* basketSaga(action) {
     yield put({
       type: 'SET_BASKET',
       payload: response.data,
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+function* postSaga(action) {
+  try {
+    yield Axios.post('/fruit', action.payload);
+    yield put({
+      type: 'GET_BASKET',
     });
   } catch (err) {
     console.log(err);
