@@ -3,38 +3,47 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 
 class FruitItem extends Component {
-    removeItem = () => {
-        axios({
-            method: 'DELETE',
-            url: `/fruit/${this.props.basketItem.id}`
-        }).then((response) => {
-            this.getFruit();
-        }).catch((error) => {
-            console.log(error);
-            alert('Unable to delete item');
-        });  
-    }
+  componentDidMount() {
+    // this.getFruit();
+    this.props.dispatch({
+      type: 'SET_BASKET',
+    });
+  }
 
-    getFruit() {
-        axios({
-            method: 'GET',
-            url: '/fruit'
-        }).then((response) => {
-            const action = { type: 'SET_BASKET', payload: response.data };
-            this.props.dispatch(action);
-        }).catch((error) => {
-            alert('Unable to get basket from server');
-        });
-    }
+  removeItem = () => {
+    axios({
+      method: 'DELETE',
+      url: `/fruit/${this.props.basketItem.id}`,
+    })
+      .then((response) => {
+        this.getFruit();
+      })
+      .catch((error) => {
+        console.log(error);
+        alert('Unable to delete item');
+      });
+  };
 
-    render() {
-        return (
-            <li>
-                <span>{this.props.basketItem.fruit}</span>
-                <button onClick={this.removeItem}>Remove</button>
-            </li>
-        )
-    }
+  // getFruit() {
+  //     axios({
+  //         method: 'GET',
+  //         url: '/fruit'
+  //     }).then((response) => {
+  //         const action = { type: 'SET_BASKET', payload: response.data };
+  //         this.props.dispatch(action);
+  //     }).catch((error) => {
+  //         alert('Unable to get basket from server');
+  //     });
+  // }
+
+  render() {
+    return (
+      <li>
+        <span>{this.props.basketItem.fruit}</span>
+        <button onClick={this.removeItem}>Remove</button>
+      </li>
+    );
+  }
 }
 
 export default connect()(FruitItem);

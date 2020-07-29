@@ -9,10 +9,13 @@ import { Provider } from 'react-redux';
 import logger from 'redux-logger';
 // Import saga middleware
 import createSagaMiddleware from 'redux-saga';
-import { takeEvery, takeLatest } from 'redux-saga';
+import { takeEvery, takeLatest } from 'redux-saga/effects';
+import Axios from 'axios';
 
 // Create the rootSaga generator function
-function* rootSaga() {}
+function* rootSaga() {
+  yield takeEvery('SET_BASKET', basketReducer);
+}
 
 // Create sagaMiddleware
 const sagaMiddleware = createSagaMiddleware();
@@ -20,14 +23,13 @@ const sagaMiddleware = createSagaMiddleware();
 // This function (our reducer) will be called when an
 // action is dipatched. state = ['Apple'] sets the default
 // value of the array.
-const basketReducer = (state = [], action) => {
-  switch (action.type) {
-    case 'SET_BASKET':
-      return action.payload;
-    default:
-      return state;
+function* basketReducer(action) {
+  try {
+    const response = yield Axios.get('/fruit');
+  } catch (err) {
+    console.log(err);
   }
-};
+}
 
 // Create one store that all components can use
 const storeInstance = createStore(
